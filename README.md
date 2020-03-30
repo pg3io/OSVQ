@@ -18,7 +18,7 @@ OSVQ est un Frontend d'un calendrier Google Agenda. Le projet vient du besoin de
 - [ ] Gestion tag Google Analytics
 - [ ] Code couleur personnalisé
 - [ ] Autre backend (Caldav)
-- [ ] Templeting web
+- [ ] Templating web
 - [ ] Cache du backend (afin de limiter les appels vers l'API Google)
 - [ ] Flux RSS 
 - [ ] Exposition d'un CalDav en lecture seule
