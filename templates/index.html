@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<section class="timeline">
+<div class="container">
+  {% for event in events %}
+      <div class="timeline-item">
+        <div class="timeline-img"></div>
+        <div class="timeline-content">
+          <h2>{% if "true" in event.webinar or "True" in event.webinar %}<span title="webinar" class="fas fa-video"></span> {% endif %}{{ event.summary }} </h2>
+          <div class="date">{{ event.datestart }}</div>
+          {% if event.desc is defined %}
+            <p>{{ event.desc[:240] }}...</p>
+          {% endif %}
+          {% if event.tags is defined %}
+          <div class="category">
+            {% for tag in event.tags %}<div class="tags"><span class="badge badge-info">#{{ tag }}</spam></div>{% endfor %}
+          </div>
+          {% endif %}
+          {% if event.city is defined %}
+          <div class="category">
+              {% for city in event.city %}<div class="tags"><span class="badge badge-success">{{ city }}</spam></div>{% endfor %}
+          </div>
+          {% endif %}
+          {% if event.url is defined %}
+          {% for url in event.url %}<a class="bnt-more" target="_blank" href="{{ url }}">More</a>{% endfor %}
+          {% endif %}
+        </div>
+      </div> 
+  {% endfor %}
+</div>
+</section>
+{% endblock %}
