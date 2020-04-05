@@ -1,0 +1,9 @@
+*.md
+__pycache__
+.dockerignore
+.git*
+LICENCE
+*.example.*
+/data
+config.yaml
+credentials.json

@@ -1,0 +1,9 @@
+.DS_Store
+__pycache__
+.vscode
+style.css
+*.token
+*.pvc
+*.pickle
+config.yaml
+credentials.json
