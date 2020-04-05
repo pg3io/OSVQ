@@ -11,7 +11,7 @@ OSVQ est un Frontend d'un calendrier Google Agenda. Le projet vient du besoin de
 
 ## Fonctions
 * Backend Google Agenda
-* Gestion de label personnalisé dans le champ description (tags, city, url)
+* Gestion de label personnalisé dans le champ description (tags, city, url, webinar)
 * Sites web minimaliste timeline
 * YAML de configuration
 * Gestion tag Google Analytics
