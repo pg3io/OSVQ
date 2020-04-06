@@ -60,29 +60,33 @@ def get_datas(idCal,vTags):
            # search and clean label
            # webinar
            event['desc'] = event['desc'].replace("webinar:", " webinar:")
+           event['desc'] = event['desc'].replace("url:", " url:")
+           event['desc'] = event['desc'].replace("tags:", " tags:")
+           event['desc'] = event['desc'].replace("city:", " city:")
            webinarparse = (searhwebinar for searhwebinar in event['desc'].split() if re.match(r"^webinar:.*", searhwebinar))
            for i in webinarparse:
              event['webinar'] = i.replace("webinar:", "").split(",")
              event['desc'] = event['desc'].replace(i , "")
+           print(event['desc'])
+           # url
+           urlparse = (searhurl for searhurl in event['desc'].split() if re.match(r"^url:.*", searhurl))
+           for i in urlparse:
+             event['url'] = i.replace("url:", "").split(",")
+             event['desc'] = event['desc'].replace(i , "")
+           print(event['desc'])
            # tags
-           event['desc'] = event['desc'].replace("tags:", " tags:")
            tagsparse = (searhtags for searhtags in event['desc'].split() if re.match(r"^tags:.*", searhtags))
            for i in tagsparse:
              fullTags = i.replace("tags:", "").split(",")
              event['tags'] = list( d for d in fullTags if d in vTags )
              event['desc'] = event['desc'].replace(i , "")
+           print(event['desc'])
            # city
-           event['desc'] = event['desc'].replace("city:", " city:")
            cityparse = (searhcity for searhcity in event['desc'].split() if re.match(r"^city:.*", searhcity))
            for i in cityparse:
              event['city'] = i.replace("city:", "").split(",")
              event['desc'] = event['desc'].replace(i , "")
-           # url
-           event['desc'] = event['desc'].replace("url:", " url:")
-           urlparse = (searhurl for searhurl in event['desc'].split() if re.match(r"^url:.*", searhurl))
-           for i in urlparse:
-             event['url'] = i.replace("url:", "").split(",")
-             event['desc'] = event['desc'].replace(i , "")
+           print(event['desc'])
     return events
 
 @app.route('/')
@@ -100,8 +104,7 @@ def page_not_found(e):
 
 @app.route('/favicon.ico')
 def favicon():
-    return send_from_directory(os.path.join(app.root_path, 'static'),
-                               'favicon.ico', mimetype='image/png')
+    return send_from_directory('static', mimetype='image/png')
 
 if __name__ == '__main__':
     app.run(debug=True)
