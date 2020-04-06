@@ -48,6 +48,8 @@ flask run
 
 ### Docker
 
+***Attention** la création du ficher token au premier lancement ne fonctionne pas [Issue #2](https://github.com/pg3io/OSVQ/issues/2)*
+
 ```bash
 docker build -t pg3io/osvq .
 mkdir data
