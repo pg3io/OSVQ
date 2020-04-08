@@ -16,5 +16,5 @@ jobs:
           dockerfile: ./Dockerfile
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
-          repository: pg3io/OSVQ/front
+          repository: pg3io/osvq/front
           tag_with_ref: true
