@@ -99,7 +99,11 @@ def page_not_found(e):
 
 @app.route('/favicon.ico')
 def favicon():
-    return send_from_directory('static', mimetype='image/png')
+    return send_from_directory(os.path.join(app.root_path, 'static'),
+                               'favicon.ico', mimetype='image/png')
+@app.route('/ping')
+def ping():
+    return "pong"
 
 if __name__ == '__main__':
     app.run(debug=True)
