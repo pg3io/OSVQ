@@ -2,15 +2,14 @@ import datetime
 import sass
 import re
 import yaml
-from flask import Flask
-from flask import Flask, render_template
-from flask import jsonify
+from flask import Flask, render_template, send_from_directory, jsonify
 from cal_setup import get_calendar_service
 from html.parser import HTMLParser
 from flask_fontawesome import FontAwesome
 
 app = Flask(__name__)
 fa = FontAwesome(app)
+
 filesource = "./config.yaml"
 
 # Vars
