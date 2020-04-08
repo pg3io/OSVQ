@@ -1,8 +1,11 @@
 # OSVQ
 
+![OSVQ Docker Build](https://github.com/pg3io/OSVQ/workflows/OSVQ%20Docker%20Build/badge.svg)
 [![langage](https://img.shields.io/badge/Langage-Python-green.svg)](https://www.python.org/)
 [![pg3.io](https://img.shields.io/badge/made%20by-PG3-orange.svg)](https://twitter.com/pg3io/)
 ![Apache 2.0 Licence](https://img.shields.io/hexpm/l/plug.svg)
+
+
 
 ## Introduction
 OSVQ est un Frontend d'un calendrier Google Agenda. Le projet vient du besoin de centraliser sur une page web des événements de différentes provenances : Meetup, EventBrite, Facebook, Linkedin, etc. Le choix d’un agenda en backend a été fait pour la simplicité d’ajout de contenu ainsi que la gestion/délégation des droits.
