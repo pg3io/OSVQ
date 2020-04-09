@@ -91,7 +91,7 @@ def get_datas(idCal,vTags):
 def accueil():
     compile_sass_to_css(sass_map)
     file = open_yaml()
-    events = get_datas(file['idCalendar'],file['valideTags'])
+    events = get_datas(file['idGCalendar'],file['valideTags'])
     return render_template('index.html', events=events, file=file)
 
 @app.errorhandler(404)
