@@ -1,11 +1,15 @@
 import datetime
 import sass
 import re
+import json
 import yaml
+import caldav
 from flask import Flask, render_template, send_from_directory, jsonify
 from cal_setup import get_calendar_service
 from html.parser import HTMLParser
 from flask_fontawesome import FontAwesome
+from icalendar import Calendar, Event
+from caldav.elements import dav, cdav
 
 app = Flask(__name__)
 fa = FontAwesome(app)
@@ -40,20 +44,47 @@ def gcalendar_get(idCal):
     now = datetime.datetime.utcnow().isoformat() + 'Z'
     events_result = service.events().list(
         calendarId= idCal, timeMin=now,
-        maxResults=100, singleEvents=True,
+        maxResults=2, singleEvents=True,
         orderBy='startTime').execute()
     events = events_result.get('items', [])
     return events
 
-# get datas
-def get_datas(idCal,vTags):
-    events = gcalendar_get(idCal)
+def caldav_get(calUrl,calUser,calPass):
+    client = caldav.DAVClient(url=calUrl, username=calUser, password=calPass)
+    principal = client.principal()
+    calendars = principal.calendars()
+    events = []
+    if len(calendars) > 0:
+        calendar = calendars[0]
+        results = calendar.date_search(datetime.datetime.now())
+        for eventraw in results:
+            event = Calendar.from_ical(eventraw._data)
+            for component in event.walk():
+                if component.name == "VEVENT":
+                    eventSummary = list()
+                    eventDescription = list()
+                    eventDateStart = list()
+                    eventdateEnd = list()
+                    eventSummary.append(component.get('summary'))
+                    eventDescription.append(component.get('description'))
+                    startDate = component.get('dtstart')
+                    eventDateStart.append(startDate.dt.strftime('%d/%m/%Y %H:%M'))
+                    endDate = component.get('dtend')
+                    eventdateEnd.append(endDate.dt.strftime('%d/%m/%Y %H:%M'))
+                    dateStamp = component.get('dtstamp')
+            data = [{ 'summary':eventSummary[0],'description':eventDescription[0],'datestart':eventDateStart[0],'dateend':eventdateEnd[0]}]
+            events.append(data[0])
+    print(events)
+    return events
+
+def update_datas(events,vTags):
     for event in events:
-       # update date format start/end
-       start = event['start'].get('dateTime', event['start'].get('date'))
-       event['datestart'] = datetime.datetime.fromisoformat(start).strftime("%d/%m/%y %H:%M")
-       end = event['end'].get('dateTime', event['end'].get('date'))
-       event['dateend'] = datetime.datetime.fromisoformat(end).strftime("%d/%m/%y %H:%M")
+       if 'start' in event:
+           start = event['start'].get('dateTime', event['start'].get('date'))
+           event['datestart'] = datetime.datetime.fromisoformat(start).strftime("%d/%m/%y %H:%M")
+       if 'end' in event:
+           end = event['end'].get('dateTime', event['end'].get('date'))
+           event['dateend'] = datetime.datetime.fromisoformat(end).strftime("%d/%m/%y %H:%M")
        if 'description' in event:
            # description => HTML to text
            desc = HTMLFilter()
@@ -91,8 +122,13 @@ def get_datas(idCal,vTags):
 def accueil():
     compile_sass_to_css(sass_map)
     file = open_yaml()
-    events = get_datas(file['idGCalendar'],file['valideTags'])
-    return render_template('index.html', events=events, file=file)
+    if 'idGCalendar' in file:
+      events = gcalendar_get(file['idGCalendar'])
+      events2 = update_datas(events,file['valideTags'])
+    else:
+      events = caldav_get(file['calUrl'],file['calUser'],file['calPass'])
+      events2 = update_datas(events,file['valideTags'])
+    return render_template('index.html', events=events2, file=file)
 
 @app.errorhandler(404)
 def page_not_found(e):
