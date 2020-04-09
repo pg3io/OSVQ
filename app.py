@@ -35,16 +35,19 @@ def open_yaml():
             print(exc)
     return file
 
-# get datas
-def get_datas(idCal,vTags):
+def gcalendar_get(idCal):
     service = get_calendar_service()
     now = datetime.datetime.utcnow().isoformat() + 'Z'
-    # get 100 value
     events_result = service.events().list(
         calendarId= idCal, timeMin=now,
         maxResults=100, singleEvents=True,
         orderBy='startTime').execute()
     events = events_result.get('items', [])
+    return events
+
+# get datas
+def get_datas(idCal,vTags):
+    events = gcalendar_get(idCal)
     for event in events:
        # update date format start/end
        start = event['start'].get('dateTime', event['start'].get('date'))
