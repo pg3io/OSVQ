@@ -44,7 +44,7 @@ def gcalendar_get(idCal):
     now = datetime.datetime.utcnow().isoformat() + 'Z'
     events_result = service.events().list(
         calendarId= idCal, timeMin=now,
-        maxResults=2, singleEvents=True,
+        maxResults=100, singleEvents=True,
         orderBy='startTime').execute()
     events = events_result.get('items', [])
     return events
@@ -74,7 +74,6 @@ def caldav_get(calUrl,calUser,calPass):
                     dateStamp = component.get('dtstamp')
             data = [{ 'summary':eventSummary[0],'description':eventDescription[0],'datestart':eventDateStart[0],'dateend':eventdateEnd[0]}]
             events.append(data[0])
-    print(events)
     return events
 
 def update_datas(events,vTags):
