@@ -121,12 +121,14 @@ def update_datas(events,vTags):
 def accueil():
     compile_sass_to_css(sass_map)
     file = open_yaml()
-    if 'idGCalendar' in file:
+    if file['mode'] == "caldav":
+      events = caldav_get(file['calUrl'],file['calUser'],file['calPass'])
+      events2 = update_datas(events,file['valideTags'])
+    elif file['mode'] == "googlecalendar":
       events = gcalendar_get(file['idGCalendar'])
       events2 = update_datas(events,file['valideTags'])
     else:
-      events = caldav_get(file['calUrl'],file['calUser'],file['calPass'])
-      events2 = update_datas(events,file['valideTags'])
+        print("undefine mode in yaml")
     return render_template('index.html', events=events2, file=file)
 
 @app.errorhandler(404)
