@@ -1,8 +1,10 @@
+import os
 import datetime
 import sass
 import re
 import yaml
-from flask import Flask, render_template, send_from_directory, jsonify
+from flask import Flask, render_template, jsonify
+from flask import send_from_directory
 from cal_setup import get_calendar_service
 from html.parser import HTMLParser
 from flask_fontawesome import FontAwesome
@@ -15,6 +17,7 @@ filesource = "./config.yaml"
 sass_map = {"static/scss/style.scss": "static/style.css"}
 labelList = ["webinar","url","tags","city"]
 events = list()
+file = list()
 
 class HTMLFilter(HTMLParser):
     text = ""
@@ -99,7 +102,7 @@ def page_not_found(e):
 
 @app.route('/favicon.ico')
 def favicon():
-    return send_from_directory(os.path.join(app.root_path, 'static'),'favicon.ico', mimetype='image/png')
+    return send_from_directory(os.path.join(app.root_path, 'static'),'favicon.png', mimetype='image/png')
 
 @app.route('/ping')
 def ping():
