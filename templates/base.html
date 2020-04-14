@@ -13,7 +13,7 @@
         <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.png') }}">
         <link rel="apple-touch-icon" href="{{ url_for('static', filename='favicon.png') }}">
 	      <meta name="image" property="og:image" content="{{ url_for('static', filename='og-image.png', _external=True) }}" />
-	      <meta property="og:description" content="{{ file.subtitle }}">
+	      <meta property="og:description" content="{{ file.subtitle|safe }}">
         <script async src="https://www.googletagmanager.com/gtag/js?id=UA-151213210-1"></script>
         <script>
           window.dataLayer = window.dataLayer || [];
@@ -25,7 +25,7 @@
         <title>{{ file.title }}</title>
         <div class="container text-center">
           <h1>{{ file.title }}</h1>
-          <p>{{ file.subtitle }}</p>
+          <p>{{ file.subtitle|safe }}</p>
           <p style="font-size: small;">Powered by <a href="https://github.com/pg3io/OSVQ" title="OSVQ to Github" style="font-size: small;" target="_blank" >OSVQ <span class="fas fa-code-branch"></span></a></p>
         </div>
   </header>
