@@ -7,7 +7,7 @@
       <div class="timeline-item">
         <div class="timeline-img"></div>
         <div class="timeline-content">
-		<h2>{% if "true" in event.webinar or "True" in event.webinar %}<span title="webinar" class="fas fa-video"></span>{% elif "bi" in event.webinar %}<span title="webinar" class="fas fa-video"> + </span> <span title="facetoface" class="fas fa-user-friends"></span>  {% else %}<span title="facetoface" class="fas fa-user-friends"></span> {% endif %}{{ event.summary }} </h2>
+		<h2>{% if "true" in event.webinar or "True" in event.webinar %}<span title="webinar" class="fas fa-video"></span> {% elif "bi" in event.webinar %}<span title="facetoface" class="fas fa-user-friends"></span> + <span title="webinar" class="fas fa-video"></span> {% else %}<span title="facetoface" class="fas fa-user-friends"></span> {% endif %}{{ event.summary }} </h2>
           <div class="date">{{ event.datestart }}</div>
           {% if event.desc is defined %}
             <p>{{ event.desc[:240] }}...</p>
